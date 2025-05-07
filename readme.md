@@ -38,20 +38,9 @@ Before you begin, ensure you have the following installed on your machine:
 ## Installation Steps:
 1. * Clone the repo and npm install in server directory
 2. * Setup docker containers - docker-compose up -d in the root file (where docker-compose.yml) file resides
-3. * Create .env file in server root directory
+3. * Add sample data to database - docker exec -it ecommerce_db psql -U user ecommerce
 
-#Server
-PORT=4000
-
-DB_USER=user
-DB_PASSWORD=password
-DB_NAME=ecommerce
-DB_HOST=localhost # Connect to the exposed port on localhost
-DB_PORT=5432
-
-ELASTICSEARCH_HOST=http://localhost:9200 # Connect to the exposed port on localhost
-
-4. * Add sample data to database - docker exec -it ecommerce_db psql -U user ecommerce
+```
 
 -- Connect to your database 'ecommerce' with user 'user'
 CREATE TABLE products (
@@ -69,8 +58,10 @@ INSERT INTO products (title, description, features) VALUES
 ('USB-C Hub', 'Multi-port USB-C hub with HDMI, USB-A, and SD card reader.', '{"ports": 5, "connectivity": "USB-C"}'),
 ('Gaming Headset', 'High-fidelity gaming headset with noise cancellation.', '{"color": "red", "connectivity": "wired", "mic": "yes"}');
 
-5. * Index data into ElasticSearch - node server/scripts/create_and_index.js
-6. * Run the server - nodemon server.js
+```
+
+4. * Index data into ElasticSearch - node server/scripts/create_and_index.js
+5. * Run the server - nodemon server.js
 
 ## Sample Query
 * Sample Query - use curl or paste into browser - http://localhost:3001/api/search?q=laptop
