@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13 # Or a more recent version
+    container_name: ecommerce_db
+    environment:
+      POSTGRES_USER: user # Replace with your desired user
+      POSTGRES_PASSWORD: password # Replace with your desired password
+      POSTGRES_DB: ecommerce # Replace with your desired database name
+    ports:
+      - "5432:5432" # Map host port 5432 to container port 5432
+    volumes:
+      - db_data:/var/lib/postgresql/data # Persist data
+    restart: unless-stopped
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10 # Use a stable 7.x version for easier setup, 8.x requires more config (security)
+    container_name: ecommerce_elasticsearch
+    environment:
+      - discovery.type=single-node # Crucial for single-node development
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m # Adjust memory as needed
+      - xpack.security.enabled=false # Disable security for easier dev setup (NOT for production)
+    ports:
+      - "9200:9200" # HTTP REST API
+      - "9300:9300" # Transport Layer (less common for client, but good to expose)
+    volumes:
+      - es_data:/usr/share/elasticsearch/data # Persist data
+    ulimits: # Required settings for Elasticsearch
+      memlock:
+        soft: -1
+        hard: -1
+    cap_add: # Required settings for Elasticsearch
+      - IPC_LOCK
+    restart: unless-stopped
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.10 # Must match Elasticsearch version
+    container_name: ecommerce_kibana
+    ports:
+      - "5601:5601" # Kibana web UI
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200 # Connects to the elasticsearch service within the docker network
+    depends_on:
+      - elasticsearch # Ensure Elasticsearch starts first
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  es_data:

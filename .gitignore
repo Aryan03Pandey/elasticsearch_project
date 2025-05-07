@@ -1,0 +1,21 @@
+# Gitignore file for a Node.js project with Docker
+
+# Dependency directories
+node_modules/
+
+# Build artifacts
+build/
+dist/
+out/
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+lerna-debug.log*
+
+# OS generated files
+.DS_Store
+.idea/
+.vscode/
+Thumbs.db
