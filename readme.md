@@ -64,7 +64,7 @@ INSERT INTO products (title, description, features) VALUES
 5. * Run the server - nodemon server.js
 
 ## Sample Query
-* Sample Query - use curl or paste into browser - http://localhost:3001/api/search?q=laptop
+* Sample Query - use curl or paste into browser - http://localhost:4000/api/search?q=laptop
 
 ## Future Improvements
 1. Implement data synchronization (dual writes, CDC) to keep Elasticsearch updated when products are added, updated, or deleted in PostgreSQL.
